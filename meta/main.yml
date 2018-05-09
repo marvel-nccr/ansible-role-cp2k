@@ -1,0 +1,16 @@
+---
+allow_duplicates: no
+
+galaxy_info:
+  author: "MARVEL NCCR"
+  description: "An ansible role to install  a recent version of [CP2K](https://www.cp2k.org/) on Ubuntu."
+  license: MIT
+  min_ansible_version: 2.5
+  platforms:
+    - name: Ubuntu
+      versions:
+      - xenial
+  galaxy_tags:
+    - ubuntu
+    - application
+    - science
