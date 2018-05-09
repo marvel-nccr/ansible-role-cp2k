@@ -66,7 +66,7 @@
   args:
     chdir: "{{ cp2k_code_folder }}"
     warn: False
-  when: not cp2k_data_dir_var.stat.isdir
+  when: not cp2k_data_dir_var.stat.isdir is defined or not cp2k_data_dir_var.stat.isdir
 
 - name: download copyright notice
   get_url:
