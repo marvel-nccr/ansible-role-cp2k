@@ -65,8 +65,8 @@
       tar xf {{ cp2k_src_archive }} {{ cp2k_src }}/data
   args:
     chdir: "{{ cp2k_code_folder }}"
-  warn: False
-  when: not cp2k_src_var.stat.exists
+    warn: False
+  when: not cp2k_src_var.stat.isdir
 
 - name: download copyright notice
   get_url:
