@@ -56,9 +56,9 @@
    
 # check to avoid change in next role, if unnecessary
 - stat:
-    path: "{{ cp2k_code_folder }}/{{ cp2k_src }}"
+    path: "{{ cp2k_code_folder }}/{{ cp2k_src }}/data"
   changed_when: False
-  register: cp2k_src_var
+  register: cp2k_data_dir_var
 
 - name: Extract (only) cp2k data directory
   shell: |
@@ -66,7 +66,7 @@
   args:
     chdir: "{{ cp2k_code_folder }}"
     warn: False
-  when: not cp2k_src_var.stat.isdir
+  when: not cp2k_data_dir_var.stat.isdir
 
 - name: download copyright notice
   get_url:
