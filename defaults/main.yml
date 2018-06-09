@@ -1,7 +1,10 @@
 cp2k_version: "5.1"
 #cp2k_apt_version: "4.1-1"
 cp2k_executables:
-  - cp2k.ssmp
+- name: cp2k
+  executable: cp2k.ssmp
+  folder: "{{ cp2k_topdir }}/exe"
+  plugin: cp2k
 
 cp2k_src: cp2k-{{ cp2k_version }}
 cp2k_src_archive: "{{ cp2k_src }}.tar.bz2"
