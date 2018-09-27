@@ -1,4 +1,4 @@
-cp2k_version: "5.1"
+cp2k_version: "6.1"
 #cp2k_apt_version: "4.1-1"
 cp2k_executables:
 - name: cp2k
@@ -20,6 +20,6 @@ cp2k_topdir: "{{ cp2k_code_folder }}/{{cp2k_src}}"
 # binary download
 cp2k_binary: cp2k-{{ cp2k_version }}-Linux-x86_64.ssmp
 cp2k_binary_url: "https://sourceforge.net/projects/cp2k/files/precompiled/{{ cp2k_binary }}"
-cp2k_svn_url: "https://sourceforge.net/p/cp2k/code/HEAD/tree/branches/cp2k-5_1-branch/cp2k"
+cp2k_svn_url: "https://sourceforge.net/p/cp2k/code/HEAD/tree/branches/cp2k-6_1-branch/cp2k"
 
 root_user: root
