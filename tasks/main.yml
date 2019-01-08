@@ -1,6 +1,6 @@
 ---
-#- import_tasks: install_via_apt.yml
-#- import_tasks: install_via_make.yml
+# - import_tasks: install_via_apt.yml
+# - import_tasks: install_via_make.yml
 - import_tasks: download_binary.yml
 
 - include_role:

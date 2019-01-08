@@ -1,5 +1,5 @@
 ---
-#quite a few dependencies)
+# quite a few dependencies)
 # Will only download once
 - name: Get cp2k source
   get_url:
@@ -11,7 +11,7 @@
   unarchive:
     src: "{{ cp2k_download.dest }}"
     dest: "{{ cp2k_code_folder }}"
-    remote_src: yes
+    remote_src: true
 
 - name: Make cp2k executables
   shell: "make -j{{ cp2k_make_cpus }} ARCH={{ cp2k_make_arch }} VERSION={{ item }}"

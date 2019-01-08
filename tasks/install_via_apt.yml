@@ -1,15 +1,15 @@
 ---
-#- name: add repo with backport containing recent cp2k version
-#  become: True
-#  become_user: "{{ root_user }}"
-#  apt_repository:
-#    repo: 'ppa:leopold-talirz/xenial-science-backports'
-#    state: present
-#    codename: xenial
-#    update_cache: True
+# - name: add repo with backport containing recent cp2k version
+#   become: True
+#   become_user: "{{ root_user }}"
+#   apt_repository:
+#     repo: 'ppa:leopold-talirz/xenial-science-backports'
+#     state: present
+#     codename: xenial
+#     update_cache: True
 
 - name: install cp2k {{ cp2k_version }}
-  become: True
+  become: true
   apt:
     name: cp2k={{ cp2k_version }}
     state: installed
@@ -23,4 +23,3 @@
       cp2k was built via apt.
       simply run cp2k.popt
   when: release_notes is defined and release_notes
-

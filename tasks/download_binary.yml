@@ -3,10 +3,8 @@
   become: true
   become_user: "{{ root_user }}"
   apt:
-      name: "{{ item }}"
-      state: latest
-  with_items:
-    - bzip2
+    name:
+      - bzip2
 
 - name: make cp2k topdir
   file:
@@ -25,56 +23,26 @@
     dest: "{{ cp2k_topdir }}/exe/cp2k.ssmp"
     state: link
 
-#- name: download cp2k data files
-#  get_url:
-#    url: "{{ cp2k_svn_url }}/data/{{ item }}?format=raw"
-#    dest: "{{ cp2k_topdir }}"
-#    # for some reason, the first item used to time out
-#    # with the default timeout of 10s
-#    timeout: 30
-#  with_items:
-#  - BASIS_MOLOPT
-#  - POTENTIAL
-#  - ALL_BASIS_SETS
-#  - ALL_POTENTIALS
-
-# avoid re-downloading of source archive
-# (2nd download appears to be blocked by source forge)
-- stat:
-    path: "{{ cp2k_code_folder }}/{{ cp2k_src_archive }}"
-  changed_when: False
-  register: cp2k_src_archive_var
-
-- name: download cp2k source
+- name: download cp2k data files
   get_url:
-    url: "{{ cp2k_url }}"
-    dest: "{{ cp2k_code_folder }}"
+    url: "{{ cp2k_git_url }}/data/{{ item }}"
+    dest: "{{ cp2k_topdir }}"
     # for some reason, the first item used to time out
     # with the default timeout of 10s
-    timeout: 60
-  when: not cp2k_src_archive_var.stat.exists
-   
-# check to avoid change in next role, if unnecessary
-- stat:
-    path: "{{ cp2k_code_folder }}/{{ cp2k_src }}/data"
-  changed_when: False
-  register: cp2k_data_dir_var
-
-- name: Extract (only) cp2k data directory
-  shell: |
-      tar xf {{ cp2k_src_archive }} {{ cp2k_src }}/data
-  args:
-    chdir: "{{ cp2k_code_folder }}"
-    warn: False
-  when: not cp2k_data_dir_var.stat.isdir is defined or not cp2k_data_dir_var.stat.isdir
+    timeout: 30
+  with_items:
+    - BASIS_MOLOPT
+    - POTENTIAL
+    - ALL_BASIS_SETS
+    - ALL_POTENTIALS
 
 - name: download copyright notice
   get_url:
-    url: "{{ cp2k_svn_url }}/{{ item }}?format=raw"
+    url: "{{ cp2k_git_url }}/{{ item }}"
     dest: "{{ cp2k_topdir }}"
   with_items:
-  - COPYRIGHT
-     
+    - COPYRIGHT
+
 - name: "Put a line in ~/.profile to add cp2k to the path"
   lineinfile:
     path: "${HOME}/.profile"
@@ -94,4 +62,3 @@
       cp2k binary was downloaded from source forge.
       simply run 'cp2k.ssmp'
   when: release_notes is defined and release_notes
-
