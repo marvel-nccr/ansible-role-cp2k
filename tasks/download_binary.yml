@@ -13,15 +13,16 @@
 
 - name: download cp2k binary
   get_url:
-    url: "{{ cp2k_binary_url }}"
-    dest: "{{ cp2k_topdir }}/exe/{{ cp2k_binary }}"
+    url: "{{ cp2k_release_url }}/{{ item.download }}"
+    dest: "{{ cp2k_topdir }}/exe/{{ item.executable }}"
     mode: "u+x"
+  with_items: "{{ cp2k_executables }}"
 
-- name: symlink binary
-  file:
-    src: "{{ cp2k_topdir }}/exe/{{ cp2k_binary }}"
-    dest: "{{ cp2k_topdir }}/exe/cp2k.ssmp"
-    state: link
+# - name: symlink binary
+#   file:
+#     src: "{{ cp2k_topdir }}/exe/{{ cp2k_binary }}"
+#     dest: "{{ cp2k_topdir }}/exe/cp2k.ssmp"
+#     state: link
 
 - name: download cp2k data files
   get_url:
