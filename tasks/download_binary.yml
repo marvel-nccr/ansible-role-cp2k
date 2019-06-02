@@ -6,10 +6,13 @@
     name:
       - bzip2
 
-- name: make cp2k topdir
+- name: make cp2k directories
   file:
-    dest: "{{ cp2k_topdir }}/exe"
+    dest: "{{ item }}"
     state: directory
+  with_items:
+    - "{{ cp2k_topdir }}/exe"
+    - "{{ cp2k_topdir }}/data"
 
 - name: download cp2k binary
   get_url:
@@ -27,7 +30,7 @@
 - name: download cp2k data files
   get_url:
     url: "{{ cp2k_git_url }}/data/{{ item }}"
-    dest: "{{ cp2k_topdir }}"
+    dest: "{{ cp2k_topdir }}/data/"
     # for some reason, the first item used to time out
     # with the default timeout of 10s
     timeout: 30
