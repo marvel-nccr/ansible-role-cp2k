@@ -6,27 +6,31 @@
     name:
       - bzip2
 
-- name: make cp2k topdir
+- name: make cp2k directories
   file:
-    dest: "{{ cp2k_topdir }}/exe"
+    dest: "{{ item }}"
     state: directory
+  with_items:
+    - "{{ cp2k_topdir }}/exe"
+    - "{{ cp2k_topdir }}/data"
 
 - name: download cp2k binary
   get_url:
-    url: "{{ cp2k_binary_url }}"
-    dest: "{{ cp2k_topdir }}/exe/{{ cp2k_binary }}"
+    url: "{{ cp2k_release_url }}/{{ item.download }}"
+    dest: "{{ cp2k_topdir }}/exe/{{ item.executable }}"
     mode: "u+x"
+  with_items: "{{ cp2k_executables }}"
 
-- name: symlink binary
-  file:
-    src: "{{ cp2k_topdir }}/exe/{{ cp2k_binary }}"
-    dest: "{{ cp2k_topdir }}/exe/cp2k.ssmp"
-    state: link
+# - name: symlink binary
+#   file:
+#     src: "{{ cp2k_topdir }}/exe/{{ cp2k_binary }}"
+#     dest: "{{ cp2k_topdir }}/exe/cp2k.ssmp"
+#     state: link
 
 - name: download cp2k data files
   get_url:
     url: "{{ cp2k_git_url }}/data/{{ item }}"
-    dest: "{{ cp2k_topdir }}"
+    dest: "{{ cp2k_topdir }}/data/"
     # for some reason, the first item used to time out
     # with the default timeout of 10s
     timeout: 30
@@ -52,6 +56,11 @@
   lineinfile:
     path: "${HOME}/.profile"
     line: "export CP2K_DATA_DIR={{ cp2k_topdir }}/data"
+
+- name: "Put a line in ~/.profile to add cp2k shell to ASE "
+  lineinfile:
+    path: "${HOME}/.profile"
+    line: "export ASE_CP2K_COMMAND=cp2k_shell.sopt"
 
 - include_role:
     name: release_notes
