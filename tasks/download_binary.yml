@@ -57,6 +57,11 @@
     path: "${HOME}/.profile"
     line: "export CP2K_DATA_DIR={{ cp2k_topdir }}/data"
 
+- name: "Put a line in ~/.profile to add cp2k shell to ASE "
+  lineinfile:
+    path: "${HOME}/.profile"
+    line: "export ASE_CP2K_COMMAND=cp2k_shell.sopt"
+
 - include_role:
     name: release_notes
   vars:
