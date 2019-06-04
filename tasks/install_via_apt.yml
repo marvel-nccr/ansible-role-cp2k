@@ -1,7 +1,6 @@
 ---
 # - name: add repo with backport containing recent cp2k version
 #   become: True
-#   become_user: "{{ root_user }}"
 #   apt_repository:
 #     repo: 'ppa:leopold-talirz/xenial-science-backports'
 #     state: present

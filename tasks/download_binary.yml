@@ -1,23 +1,24 @@
 ---
 - name: install required packages
   become: true
-  become_user: "{{ root_user }}"
   apt:
     name:
       - bzip2
 
 - name: make cp2k directories
+  become: true
   file:
     dest: "{{ item }}"
     state: directory
   with_items:
-    - "{{ cp2k_topdir }}/exe"
-    - "{{ cp2k_topdir }}/data"
+    - "{{ cp2k_bin_dir }}"
+    - "{{ cp2k_data_dir }}"
 
 - name: download cp2k binary
+  become: true
   get_url:
     url: "{{ cp2k_release_url }}/{{ item.download }}"
-    dest: "{{ cp2k_topdir }}/exe/{{ item.executable }}"
+    dest: "{{ cp2k_bin_dir }}/{{ item.executable }}"
     mode: "u+x"
   with_items: "{{ cp2k_executables }}"
 
@@ -28,9 +29,10 @@
 #     state: link
 
 - name: download cp2k data files
+  become: true
   get_url:
     url: "{{ cp2k_git_url }}/data/{{ item }}"
-    dest: "{{ cp2k_topdir }}/data/"
+    dest: "{{ cp2k_data_dir }}/"
     # for some reason, the first item used to time out
     # with the default timeout of 10s
     timeout: 30
@@ -41,26 +43,26 @@
     - ALL_POTENTIALS
 
 - name: download copyright notice
+  become: true
   get_url:
     url: "{{ cp2k_git_url }}/{{ item }}"
-    dest: "{{ cp2k_topdir }}"
+    dest: "{{ cp2k_data_dir }}"
   with_items:
     - COPYRIGHT
 
-- name: "Put a line in ~/.profile to add cp2k to the path"
+- name: "Add CP2K_DATA_DIR environment variable"
+  become: true
   lineinfile:
-    path: "${HOME}/.profile"
-    line: "export PATH=${PATH}:{{ cp2k_topdir }}/exe"
+    path: "{{ cp2k_env_file }}"
+    line: "export CP2K_DATA_DIR={{ cp2k_data_dir }}"
+    create: true
 
-- name: "Put a line in ~/.profile for cp2k data directory"
+- name: "Add environment variable for ASE"
+  become: true
   lineinfile:
-    path: "${HOME}/.profile"
-    line: "export CP2K_DATA_DIR={{ cp2k_topdir }}/data"
-
-- name: "Put a line in ~/.profile to add cp2k shell to ASE "
-  lineinfile:
-    path: "${HOME}/.profile"
+    path: "{{ cp2k_env_file }}"
     line: "export ASE_CP2K_COMMAND=cp2k_shell.sopt"
+    create: true
 
 - include_role:
     name: release_notes
