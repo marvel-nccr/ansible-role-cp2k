@@ -1,7 +1,10 @@
 ---
-# - import_tasks: install_via_apt.yml
-# - import_tasks: install_via_make.yml
+- import_tasks: install_via_apt.yml
+  when: cp2k_installation_route == 'apt'
+- import_tasks: install_via_make.yml
+  when: cp2k_installation_route == 'make'
 - import_tasks: download_binary.yml
+  when: cp2k_installation_route == 'download'
 
 - include_role:
     name: release_notes

@@ -1,14 +1,11 @@
 ---
 cp2k_version: "6.1"
 cp2k_long_version: "v6.1.0"
-# cp2k_apt_version: "4.1-1"
+cp2k_apt_version: "5.1-3"
+cp2k_installation_route: "download"  # "make", "download" or "apt"
 
-cp2k_src: cp2k-{{ cp2k_version }}
-cp2k_src_archive: "{{ cp2k_src }}.tar.bz2"
-cp2k_url: "https://sourceforge.net/projects/cp2k/files/{{ cp2k_src_archive }}/download"
 cp2k_code_folder: "/tmp"
 cp2k_topdir: "{{ cp2k_code_folder }}/{{cp2k_src}}"
-
 cp2k_env_file: /etc/profile.d/cp2k.sh
 cp2k_prefix: /usr/local
 cp2k_bin_dir: "{{ cp2k_prefix }}/bin"
@@ -25,14 +22,17 @@ cp2k_executables:
     download: cp2k_shell-{{ cp2k_version }}-Linux-x86_64.sopt
     folder: "{{ cp2k_bin_dir }}"
 
+# binary download
+# cp2k_svn_url: "https://sourceforge.net/p/cp2k/code/HEAD/tree/branches/cp2k-6_1-branch/cp2k"
+cp2k_git_url: "https://raw.githubusercontent.com/cp2k/cp2k/{{ cp2k_long_version }}"
+cp2k_release_url: "https://github.com/cp2k/cp2k/releases/download/{{ cp2k_long_version }}"
+
 # make cp2k
 # cp2k_make_arch: Linux-x86-64-gfortran
 # cp2k_make_versions:
 #  - sopt
 #  - popt
 # cp2k_make_cpus: 2
-
-# binary download
-# cp2k_svn_url: "https://sourceforge.net/p/cp2k/code/HEAD/tree/branches/cp2k-6_1-branch/cp2k"
-cp2k_git_url: "https://raw.githubusercontent.com/cp2k/cp2k/{{ cp2k_long_version }}"
-cp2k_release_url: "https://github.com/cp2k/cp2k/releases/download/{{ cp2k_long_version }}"
+cp2k_src: cp2k-{{ cp2k_version }}
+cp2k_src_archive: "{{ cp2k_src }}.tar.bz2"
+cp2k_src_url: "{{ cp2k_release_url }}/{{ cp2k_src_archive }}"

@@ -3,7 +3,7 @@
 # Will only download once
 - name: Get cp2k source
   get_url:
-    url: "{{ cp2k_url }}"
+    url: "{{ cp2k_src_url }}"
     dest: "{{ cp2k_code_folder }}/{{ cp2k_src_archive }}"
   register: cp2k_download
 
@@ -12,6 +12,22 @@
     src: "{{ cp2k_download.dest }}"
     dest: "{{ cp2k_code_folder }}"
     remote_src: true
+
+- name: Install toolchain
+  command: ./install_cp2k_toolchain.sh --with-libxsmm=install --with-openblas=system --with-fftw=system --with-reflapack=no  --enable-omp
+  args:
+    chdir: "{{ cp2k_topdir }}/tools/toolchain"
+    creates: "{{ cp2k_topdir }}/tools/todo"
+  register: cp2k_toolchain
+
+
+- name: Make cp2k executables
+  command: "make -j{{ cp2k_make_cpus }} ARCH={{ cp2k_make_arch }} VERSION={{ item }}"
+  args:
+    chdir: "{{ cp2k_topdir }}/makefiles"
+    creates: "{{ cp2k_topdir }}/exe/{{ cp2k_make_arch }}/cp2k.{{ item }}"
+  with_items: "{{ cp2k_make_versions }}"
+  register: cp2k_make
 
 - name: Make cp2k executables
   command: "make -j{{ cp2k_make_cpus }} ARCH={{ cp2k_make_arch }} VERSION={{ item }}"

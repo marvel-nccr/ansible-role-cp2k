@@ -7,11 +7,11 @@
 #     codename: xenial
 #     update_cache: True
 
-- name: install cp2k {{ cp2k_version }}
+- name: install cp2k {{ cp2k_apt_version }}
   become: true
   apt:
-    name: cp2k={{ cp2k_version }}
-    state: installed
+    name: cp2k={{ cp2k_apt_version }}
+    state: present
 
 - include_role:
     name: release_notes
