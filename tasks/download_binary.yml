@@ -19,7 +19,7 @@
   get_url:
     url: "{{ cp2k_release_url }}/{{ item.download }}"
     dest: "{{ cp2k_bin_dir }}/{{ item.executable }}"
-    mode: "u+x"
+    mode: '0755'
   with_items: "{{ cp2k_executables }}"
 
 # - name: symlink binary
