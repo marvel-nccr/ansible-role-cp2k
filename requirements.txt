@@ -1,4 +1,4 @@
-molecule
+molecule~=3.0
 docker
-pre-commit
 yamllint
+ansible-lint
