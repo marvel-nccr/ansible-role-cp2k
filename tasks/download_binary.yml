@@ -61,7 +61,7 @@
   become: true
   lineinfile:
     path: "{{ cp2k_env_file }}"
-    line: "export ASE_CP2K_COMMAND=cp2k_shell.sopt"
+    line: "export ASE_CP2K_COMMAND=cp2k.ssmp --shell"
     create: true
 
 - include_role:
