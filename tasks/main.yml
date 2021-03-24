@@ -1,4 +1,3 @@
----
 - import_tasks: install_via_apt.yml
   when: cp2k_installation_route == 'apt'
 - import_tasks: install_via_make.yml

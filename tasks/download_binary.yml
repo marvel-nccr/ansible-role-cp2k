@@ -1,9 +1,8 @@
----
 - name: install required packages
   become: true
   apt:
     name:
-      - bzip2
+    - bzip2
 
 - name: make cp2k directories
   become: true
@@ -11,8 +10,8 @@
     dest: "{{ item }}"
     state: directory
   with_items:
-    - "{{ cp2k_bin_dir }}"
-    - "{{ cp2k_data_dir }}"
+  - "{{ cp2k_bin_dir }}"
+  - "{{ cp2k_data_dir }}"
 
 - name: download cp2k binary
   become: true
@@ -37,10 +36,10 @@
     # with the default timeout of 10s
     timeout: 30
   with_items:
-    - BASIS_MOLOPT
-    - POTENTIAL
-    - ALL_BASIS_SETS
-    - ALL_POTENTIALS
+  - BASIS_MOLOPT
+  - POTENTIAL
+  - ALL_BASIS_SETS
+  - ALL_POTENTIALS
 
 - name: download copyright notice
   become: true
@@ -48,7 +47,7 @@
     url: "{{ cp2k_git_url }}/{{ item }}"
     dest: "{{ cp2k_data_dir }}"
   with_items:
-    - COPYRIGHT
+  - COPYRIGHT
 
 - name: "Add CP2K_DATA_DIR environment variable"
   become: true
