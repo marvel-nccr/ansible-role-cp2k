@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/marvel-nccr/ansible-role-cp2k.svg?branch=master)](https://travis-ci.org/marvel-nccr/ansible-role-cp2k)
+[![CI](https://github.com/marvel-nccr/ansible-role-cp2k/workflows/CI/badge.svg)](https://github.com/marvel-nccr/ansible-role-cp2k/actions)
+[![Ansible Role](https://img.shields.io/ansible/role/25524.svg)](https://galaxy.ansible.com/marvel-nccr/cp2k)
+[![Release](https://img.shields.io/github/tag/marvel-nccr/ansible-role-cp2k.svg)](https://github.com/marvel-nccr/ansible-role-cp2k/releases)
 
 # Ansible Role: marvel-nccr.cp2k
 
@@ -14,21 +16,53 @@ See `defaults/main.yml`
 
 ## Example Playbook
 
-```
-- hosts: machines
+```yaml
+- hosts: servers
   roles:
-  - role: nccr-marvel.slurm
+  - role: marvel-nccr.cp2k
 ```
 
-## Tests
+## Development and testing
 
-This role uses [Molecule](https://molecule.readthedocs.io/en/latest/#) and
-Docker for tests. Once Docker is installed, run tests using
+This role uses [Molecule](https://molecule.readthedocs.io/en/latest/#) and [Docker](https://www.docker.com/) for tests.
+
+After installing [Docker](https://www.docker.com/):
+
+Clone the repository into a package named `marvel-nccr.cp2k` (the folder must be named the same as the Ansible Galaxy name)
 
 ```bash
-pip install -r requirements.txt
-molecule test
+git clone https://github.com/marvel-nccr/ansible-role-cp2k marvel-nccr.cp2k
+cd marvel-nccr.cp2k
 ```
+
+Then run:
+
+```bash
+pip install -r requirements.txt  # Installs molecule
+molecule test  # runs tests
+```
+
+or use tox (see `tox.ini`):
+
+```bash
+pip install tox
+tox
+```
+
+## Code style
+
+Code style is formatted and linted with [pre-commit](https://pre-commit.com/).
+
+```bash
+pip install pre-commit
+pre-commit run -all
+```
+
+## Deployment
+
+Deployment to Ansible Galaxy is automated *via* GitHub Actions.
+Simply tag a release `vX.Y.Z` to initiate the CI and release workflow.
+Note, the release will only complete if the CI tests pass.
 
 ## License
 
