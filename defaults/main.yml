@@ -17,6 +17,7 @@ cp2k_executables:
     download: cp2k-{{ cp2k_version }}-Linux-x86_64.ssmp
     folder: "{{ cp2k_bin_dir }}"
     plugin: cp2k
+    version: "{{ cp2k_version }}"
 
 # binary download
 # cp2k_svn_url: "https://sourceforge.net/p/cp2k/code/HEAD/tree/branches/cp2k-6_1-branch/cp2k"
